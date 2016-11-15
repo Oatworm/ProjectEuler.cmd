@@ -42,7 +42,7 @@ FOR /L %%I IN (1,1,10) DO (
 CALL :ExtCompare %_PCheck% %_FindFactor% _CompareRes
 IF "%_CompareRes%"=="LSS" (
 	CALL :ExtDivision %_FindFactor% %_PCheck% _FactorCheck
-	ECHO:LF=%_LargeFactor%::FF=%_FindFactor%::PC=%_PCheck%::FC=!_FactorCheck!
+	ECHO:Largest Factor=%_LargeFactor%, Factoring=%_FindFactor%, Checking Prime=%_PCheck%, Result=!_FactorCheck!
 	IF /I "!_FactorCheck:.=!"=="!_FactorCheck!" (
 		SET _FindFactor=!_FactorCheck!
 		SET _LargeFactor=!_PCheck!
