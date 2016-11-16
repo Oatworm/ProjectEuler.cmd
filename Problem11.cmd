@@ -1,0 +1,102 @@
+@ECHO OFF
+SETLOCAL EnableDelayedExpansion
+
+:: Project Euler Problem 11
+:: Find greatest product of four adjacent numbers in 20x20 grid
+
+SET _Prod=
+SET _MaxProd=0
+
+SET R1=08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
+SET R2=49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
+SET R3=81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
+SET R4=52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91
+SET R5=22 31 16 71 51 67 63 89 41 92 36 54 22 40 40 28 66 33 13 80
+SET R6=24 47 32 60 99 03 45 02 44 75 33 53 78 36 84 20 35 17 12 50
+SET R7=32 98 81 28 64 23 67 10 26 38 40 67 59 54 70 66 18 38 64 70
+SET R8=67 26 20 68 02 62 12 20 95 63 94 39 63 08 40 91 66 49 94 21
+SET R9=24 55 58 05 66 73 99 26 97 17 78 78 96 83 14 88 34 89 63 72
+SET R10=21 36 23 09 75 00 76 44 20 45 35 14 00 61 33 97 34 31 33 95
+SET R11=78 17 53 28 22 75 31 67 15 94 03 80 04 62 16 14 09 53 56 92
+SET R12=16 39 05 42 96 35 31 47 55 58 88 24 00 17 54 24 36 29 85 57
+SET R13=86 56 00 48 35 71 89 07 05 44 44 37 44 60 21 58 51 54 17 58
+SET R14=19 80 81 68 05 94 47 69 28 73 92 13 86 52 17 77 04 89 55 40
+SET R15=04 52 08 83 97 35 99 16 07 97 57 32 16 26 26 79 33 27 98 66
+SET R16=88 36 68 87 57 62 20 72 03 46 33 67 46 55 12 32 63 93 53 69
+SET R17=04 42 16 73 38 25 39 11 24 94 72 18 08 46 29 32 40 62 76 36
+SET R18=20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
+SET R19=20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
+SET R20=01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
+
+FOR /L %%G IN (1,1,20) DO (
+	SET _C=1
+	FOR %%H IN (!R%%G!) DO (
+		SET R%%GC!_C!=%%H
+		SET /A _C+=1
+	)
+)
+
+:: Check vertically and horizontally...
+:: Fun fact - CMD interprets all digits with a trailing 0 as octal!
+FOR /L %%G IN (1,1,20) DO (
+	FOR /L %%H IN (1,1,17) DO (
+		SET _V1=!R%%HC%%G!
+		IF "!_V1:~0,1!" EQU "0" SET _V1=!_V1:~1,1!
+		SET _H1=!R%%GC%%H!
+		IF "!_H1:~0,1!" EQU "0" SET _H1=!_H1:~1,1!
+		SET _DR1=!_V1!
+		SET _DL1=!_V1!
+
+		SET /A _PH1=%%H+1
+		CALL SET _V2=%%R!_PH1!C%%G%%
+		IF "!_V2:~0,1!" EQU "0" SET _V2=!_V2:~1,1!
+		CALL SET _H2=%%R%%GC!_PH1!%%
+		IF "!_H2:~0,1!" EQU "0" SET _H2=!_H2:~1,1!
+		SET /A _PG1=%%G+1
+		CALL SET _DR2=%%R!_PH1!C!_PG1!%%
+		IF "!_DR2:~0,1!" EQU "0" SET _DR2=!_DR2:~1,1!
+		SET /A _MG1=%%G-1
+		CALL SET _DL2=%%R!_PH1!C!_MG1!%%
+		IF "!_DL2:~0,1!" EQU "0" SET _DL2=!_DL2:~1,1!
+		
+		SET /A _PH2=%%H+2
+		CALL SET _V3=%%R!_PH2!C%%G%%
+		IF "!_V3:~0,1!" EQU "0" SET _V3=!_V3:~1,1!
+		CALL SET _H3=%%R%%GC!_PH2!%%
+		IF "!_H3:~0,1!" EQU "0" SET _H3=!_H3:~1,1!
+		SET /A _PG2=%%G+2
+		CALL SET _DR3=%%R!_PH2!C!_PG2!%%
+		IF "!_DR3:~0,1!" EQU "0" SET _DR3=!_DR3:~1,1!
+		SET /A _MG2=%%G-2
+		CALL SET _DL3=%%R!_PH2!C!_MG2!%%
+		IF "!_DL3:~0,1!" EQU "0" SET _DL3=!_DL3:~1,1!
+		
+		SET /A _PH3=%%H+3
+		CALL SET _V4=%%R!_PH3!C%%G%%
+		IF "!_V4:~0,1!" EQU "0" SET _V4=!_V4:~1,1!
+		CALL SET _H4=%%R%%GC!_PH3!%%
+		IF "!_H4:~0,1!" EQU "0" SET _H4=!_H4:~1,1!
+		SET /A _PG3=%%G+3
+		CALL SET _DR4=%%R!_PH3!C!_PG3!%%
+		IF "!_DR4:~0,1!" EQU "0" SET _DR4=!_DR4:~1,1!
+		SET /A _MG3=%%G-3
+		CALL SET _DL4=%%R!_PH3!C!_MG3!%%
+		IF "!_DL4:~0,1!" EQU "0" SET _DL4=!_DL4:~1,1!
+		
+		SET /A _VProd=_V1*_V2*_V3*_V4
+		SET /A _HProd=_H1*_H2*_H3*_H4
+		SET /A _DRProd=_DR1*_DR2*_DR3*_DR4
+		SET /A _DLProd=_DL1*_DL2*_DL3*_DL4
+		IF !_VProd! GTR !_MaxProd! SET _MaxProd=!_VProd!
+		IF !_HProd! GTR !_MaxProd! SET _MaxProd=!_HProd!
+		IF !_DRProd! GTR !_MaxProd! SET _MaxProd=!_DRProd!
+		IF !_DLProd! GTR !_MaxProd! SET _MaxProd=!_DLProd!
+		ECHO:V:!_V1!*!_V2!*!_V3!*!_V4!=!_VProd! 
+		ECHO:H:!_H1!*!_H2!*!_H3!*!_H4!=!_HProd!
+		ECHO:DR:!_DR1!*!_DR2!*!_DR3!*!_DR4!=!_DRProd!
+		ECHO:DL:!_DL1!*!_DL2!*!_DL3!*!_DL4!=!_DLProd!
+		ECHO:M:!_MaxProd!
+	)
+)
+
+ECHO:Answer: %_MaxProd%
