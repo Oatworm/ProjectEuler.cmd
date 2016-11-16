@@ -6,7 +6,6 @@ SETLOCAL EnableDelayedExpansion
 
 SET _Prod=
 SET _MaxProd=0
-
 SET R1=08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 SET R2=49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
 SET R3=81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
@@ -28,6 +27,7 @@ SET R18=20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
 SET R19=20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
 SET R20=01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
 
+:: Populate the grid (RxCy)
 FOR /L %%G IN (1,1,20) DO (
 	SET _C=1
 	FOR %%H IN (!R%%G!) DO (
@@ -36,7 +36,7 @@ FOR /L %%G IN (1,1,20) DO (
 	)
 )
 
-:: Check vertically and horizontally...
+:: Checks vertically, horizontally, and diagonally
 :: Fun fact - CMD interprets all digits with a trailing 0 as octal!
 FOR /L %%G IN (1,1,20) DO (
 	FOR /L %%H IN (1,1,17) DO (
@@ -91,11 +91,6 @@ FOR /L %%G IN (1,1,20) DO (
 		IF !_HProd! GTR !_MaxProd! SET _MaxProd=!_HProd!
 		IF !_DRProd! GTR !_MaxProd! SET _MaxProd=!_DRProd!
 		IF !_DLProd! GTR !_MaxProd! SET _MaxProd=!_DLProd!
-		ECHO:V:!_V1!*!_V2!*!_V3!*!_V4!=!_VProd! 
-		ECHO:H:!_H1!*!_H2!*!_H3!*!_H4!=!_HProd!
-		ECHO:DR:!_DR1!*!_DR2!*!_DR3!*!_DR4!=!_DRProd!
-		ECHO:DL:!_DL1!*!_DL2!*!_DL3!*!_DL4!=!_DLProd!
-		ECHO:M:!_MaxProd!
 	)
 )
 
