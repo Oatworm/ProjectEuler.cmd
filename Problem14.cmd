@@ -71,8 +71,7 @@ IF NOT DEFINED _Next%_Step% (
 	IF DEFINED _Count!_Next%_Step%! (
 		SET /A _Count%_Step%=_Count!_Next%_Step%!+1
 	)
-)
-:ChainDone
+):ChainDone
 GOTO :EOF
 
 :BigMul
@@ -119,6 +118,3 @@ SETLOCAL EnableDelayedExpansion
 	)
 ENDLOCAL & SET %2=%_AddResult%
 GOTO :EOF
-
-:Abort
-GOTO :EOF 
