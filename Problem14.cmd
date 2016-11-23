@@ -18,7 +18,7 @@ SET _MaxChain=0
 SET _Next1=1
 SET _Count1=0
 
-FOR /L %%G IN (1,1,999999) DO (
+FOR /L %%G IN (500000,1,999999) DO (
 	CALL :CreateChain %%G
 	ECHO:%%G :: !_Count%%G!
 	IF !_Count%%G! GTR !_MaxCount! (
@@ -61,7 +61,10 @@ IF NOT DEFINED _Next%_Step% (
 			REM Multiplying by 5, then taking the 0 off the end
 			REM Same as multiplying by 0.5 (or dividing by 2)
 			CALL :BigMul %_Step% 5 _Next%_Step%
-			CALL SET _Next%_Step% = !%_Next%_Step%:~0,-1%!
+			SET _tmp=!_Next%_Step%!
+			SET _tmp=!_tmp:~0,-1!
+			SET _Next%_Step%=!_tmp!
+			CALL :CreateChain !_Next%_Step%!
 		)
 	)
 	
@@ -116,3 +119,6 @@ SETLOCAL EnableDelayedExpansion
 	)
 ENDLOCAL & SET %2=%_AddResult%
 GOTO :EOF
+
+:Abort
+GOTO :EOF 
