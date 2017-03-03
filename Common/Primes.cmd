@@ -19,3 +19,5 @@ FOR /L %%G IN (3,2,%_Max%) DO (
 FOR /F "delims=`=" %%G IN ('SET `') DO (
 	ECHO:%%G
 )
+
+GOTO :EOF
