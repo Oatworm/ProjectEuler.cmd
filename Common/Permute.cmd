@@ -4,6 +4,9 @@ SETLOCAL EnableDelayedExpansion
 :: Common function - Find permutations
 SET _Arg=%1
 CALL :Permute _Arg
+ECHO:%_Arg%
+
+GOTO :EOF 
 
 :Permute
 SETLOCAL EnableDelayedExpansion
